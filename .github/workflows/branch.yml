@@ -1,0 +1,15 @@
+name: push-to-branch
+on:
+  push:
+    branches:
+      - "**"
+      - "!main"
+
+jobs:
+
+  build-snap:
+    name: Build srsRAN snap
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: snapcore/action-build@v1

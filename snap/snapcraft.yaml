@@ -1,0 +1,55 @@
+name: srsran
+base: core20
+version: '22.04.1'
+summary: srsRAN is a 4G/5G software radio suite developed by SRS.
+description: srsRAN is a 4G/5G software radio suite developed by SRS.
+
+grade: devel
+confinement: devmode
+
+apps:
+  srsepc:
+    command: usr/local/bin/srsepc
+    plugs:
+      - home
+      - network
+      - network-bind
+      - network-control
+
+parts:
+
+  libzmq:
+    plugin: autotools
+    source: https://github.com/zeromq/libzmq.git
+    source-type: git
+    source-tag: v4.3.4
+
+  czmq:
+    after:
+      - libzmq
+    plugin: autotools
+    source: https://github.com/zeromq/czmq.git
+    source-type: git
+    source-tag: v4.2.1
+
+  srsran:
+    plugin: cmake
+    after:
+      - czmq
+    source: https://github.com/srsRAN/srsRAN.git
+    source-type: git
+    source-tag: release_22_04_1
+    build-packages:
+      - build-essential
+      - cmake
+      - libfftw3-dev
+      - libmbedtls-dev
+      - libboost-program-options-dev
+      - libconfig++-dev
+      - libsctp-dev
+    stage-packages:
+      - libboost-program-options1.71.0
+      - libconfig++9v5
+      - libfftw3-single3
+      - libmbedcrypto3
+      - libsctp1
