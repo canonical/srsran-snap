@@ -1,4 +1,4 @@
-name: srsran
+name: srslte
 base: core20
 version: '20.10'
 summary: srsRAN is a 4G/5G software radio suite developed by SRS.
@@ -25,9 +25,11 @@ apps:
       LD_LIBRARY_PATH: $SNAP/usr/lib/x86_64-linux-gnu/
   install:
     command: usr/bin/srslte_install_configs.sh
+    environment:
+      SRSRAN_INSTALL_DIR: $SNAP/usr/share/srslte/
 
 layout:
-  /usr/share/srsran:
+  /usr/share/srslte:
     bind: $SNAP/usr/share/srslte
 parts:
   srsran:
