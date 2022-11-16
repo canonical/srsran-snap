@@ -1,55 +1,56 @@
 name: srsran
 base: core20
-version: '22.04.1'
+version: '20.10'
 summary: srsRAN is a 4G/5G software radio suite developed by SRS.
 description: srsRAN is a 4G/5G software radio suite developed by SRS.
-
 grade: devel
-confinement: devmode
-
+confinement: strict
 apps:
+  srsenb:
+    command: usr/bin/srsenb
+    environment:
+      LD_LIBRARY_PATH: $SNAP/usr/lib/x86_64-linux-gnu/
+  srsue:
+    command: usr/bin/srsue
+    environment:
+      LD_LIBRARY_PATH: $SNAP/usr/lib/x86_64-linux-gnu/
   srsepc:
-    command: usr/local/bin/srsepc
+    command: usr/bin/srsepc
     plugs:
       - home
       - network
       - network-bind
       - network-control
+    environment:
+      LD_LIBRARY_PATH: $SNAP/usr/lib/x86_64-linux-gnu/
+  install:
+    command: usr/bin/srslte_install_configs.sh
 
+layout:
+  /usr/share/srsran:
+    bind: $SNAP/usr/share/srslte
 parts:
-
-  libzmq:
-    plugin: autotools
-    source: https://github.com/zeromq/libzmq.git
-    source-type: git
-    source-tag: v4.3.4
-
-  czmq:
-    after:
-      - libzmq
-    plugin: autotools
-    source: https://github.com/zeromq/czmq.git
-    source-type: git
-    source-tag: v4.2.1
-
   srsran:
     plugin: cmake
-    after:
-      - czmq
-    source: https://github.com/srsRAN/srsRAN.git
+    cmake-parameters:
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+    source: https://github.com/srsLTE/srsLTE.git
     source-type: git
-    source-tag: release_22_04_1
+    source-tag: release_20_10
     build-packages:
+      - libzmq3-dev
       - build-essential
-      - cmake
-      - libfftw3-dev
       - libmbedtls-dev
       - libboost-program-options-dev
-      - libconfig++-dev
       - libsctp-dev
+      - libconfig++-dev
+      - libfftw3-dev
+      - net-tools
     stage-packages:
+      - libzmq5
       - libboost-program-options1.71.0
+      - libsctp1
       - libconfig++9v5
       - libfftw3-single3
       - libmbedcrypto3
-      - libsctp1
