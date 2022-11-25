@@ -4,16 +4,35 @@ version: '20.10'
 summary: srsRAN is a 4G/5G software radio suite developed by SRS.
 description: srsRAN is a 4G/5G software radio suite developed by SRS.
 grade: devel
-confinement: strict
+confinement: devmode
+plugs:
+  etc-srslte:
+    interface: system-files
+    read:
+    - /etc/srslte
 apps:
   srsenb:
     command: usr/bin/srsenb
     environment:
-      LD_LIBRARY_PATH: $SNAP/usr/lib/x86_64-linux-gnu/
+      LD_LIBRARY_PATH: $SNAP/usr/lib
+    plugs:
+      - home
+      - network
+      - network-bind
+      - network-control
+      - log-observe
+      - process-control
   srsue:
     command: usr/bin/srsue
     environment:
-      LD_LIBRARY_PATH: $SNAP/usr/lib/x86_64-linux-gnu/
+      LD_LIBRARY_PATH: $SNAP/usr/lib
+    plugs:
+      - home
+      - network
+      - network-bind
+      - network-control
+      - log-observe
+      - process-control
   srsepc:
     command: usr/bin/srsepc
     plugs:
@@ -25,34 +44,32 @@ apps:
       LD_LIBRARY_PATH: $SNAP/usr/lib/x86_64-linux-gnu/
   install:
     command: usr/bin/srslte_install_configs.sh
-    environment:
-      SRSRAN_INSTALL_DIR: $SNAP/usr/share/srslte/
 
 layout:
   /usr/share/srslte:
     bind: $SNAP/usr/share/srslte
+  /etc/srslte:
+    bind: $SNAP_DATA/etc/srslte
 parts:
-  srsran:
+  srslte:
     plugin: cmake
     cmake-parameters:
+      - -DCMAKE_BUILD_TYPE=Debug
       - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
     source: https://github.com/srsLTE/srsLTE.git
     source-type: git
     source-tag: release_20_10
     build-packages:
       - libzmq3-dev
-      - build-essential
       - libmbedtls-dev
       - libboost-program-options-dev
       - libsctp-dev
       - libconfig++-dev
       - libfftw3-dev
-      - net-tools
     stage-packages:
       - libzmq5
       - libboost-program-options1.71.0
       - libsctp1
-      - libconfig++9v5
       - libfftw3-single3
       - libmbedcrypto3
+      - libconfig++9v5
