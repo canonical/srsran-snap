@@ -5,16 +5,9 @@ summary: srsRAN is a 4G/5G software radio suite developed by SRS.
 description: srsRAN is a 4G/5G software radio suite developed by SRS.
 grade: devel
 confinement: devmode
-plugs:
-  etc-srslte:
-    interface: system-files
-    read:
-    - /etc/srslte
 apps:
   srsenb:
     command: usr/bin/srsenb
-    environment:
-      LD_LIBRARY_PATH: $SNAP/usr/lib
     plugs:
       - home
       - network
@@ -24,15 +17,11 @@ apps:
       - process-control
   srsue:
     command: usr/bin/srsue
-    environment:
-      LD_LIBRARY_PATH: $SNAP/usr/lib
     plugs:
       - home
       - network
       - network-bind
       - network-control
-      - log-observe
-      - process-control
   srsepc:
     command: usr/bin/srsepc
     plugs:
@@ -40,25 +29,22 @@ apps:
       - network
       - network-bind
       - network-control
-    environment:
-      LD_LIBRARY_PATH: $SNAP/usr/lib/x86_64-linux-gnu/
-  install:
-    command: usr/bin/srslte_install_configs.sh
 
 layout:
   /usr/share/srslte:
     bind: $SNAP/usr/share/srslte
   /etc/srslte:
     bind: $SNAP_DATA/etc/srslte
-parts:
+parts: 
   srslte:
     plugin: cmake
     cmake-parameters:
-      - -DCMAKE_BUILD_TYPE=Debug
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DENABLE_ASAN=True
       - -DCMAKE_INSTALL_PREFIX=/usr
     source: https://github.com/srsLTE/srsLTE.git
     source-type: git
-    source-tag: release_20_10
+    source-tag: release_20_10_1
     build-packages:
       - libzmq3-dev
       - libmbedtls-dev
@@ -73,3 +59,6 @@ parts:
       - libfftw3-single3
       - libmbedcrypto3
       - libconfig++9v5
+      - libasan5
+    prime:
+      - -usr/include
