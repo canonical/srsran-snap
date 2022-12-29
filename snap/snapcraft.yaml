@@ -34,7 +34,7 @@ layout:
   /usr/share/srslte:
     bind: $SNAP/usr/share/srslte
   /etc/srslte:
-    bind: $SNAP_DATA/etc/srslte
+    bind: $SNAP/usr/share/srslte
 parts: 
   srslte:
     plugin: cmake
