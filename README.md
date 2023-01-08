@@ -15,30 +15,29 @@ For application features, build instructions and user guides see the [srsRAN doc
 sudo snap install srsran
 ```
 
-## Config files
+### Config files
 
 By default config files are installed from the official srsran repo, for example [enb.conf.example](https://github.com/srsran/srsRAN/blob/master/srsenb/enb.conf.example).
 When running any of the commands these config files are used. 
 To override config files, provide paths to the custom files in the commands.
-
-custom config files and all the files referred in them (ex. `user_db.csv`) must be located in the user's home 
+Custom config files and all files referred in them (ex. `user_db.csv`) must be located in the user's home
 directory.
 
-## Commands
+### Commands
 
-### srsenb
+- srsenb
 
 ```bash
 srsran.srsenb <path to enb.conf>
 ```
 
-### srsue
+- srsue
 
 ```bash
 srsran.srsue <path to ue.conf>
 ```
 
-### srsepc
+- srsepc
 
 ```bash
 srsran.srsepc <path to epc.conf>
