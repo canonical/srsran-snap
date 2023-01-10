@@ -1,55 +1,54 @@
 name: srsran
 base: core20
-version: '22.04.1'
+version: '20.10'
 summary: srsRAN is a 4G/5G software radio suite developed by SRS.
 description: srsRAN is a 4G/5G software radio suite developed by SRS.
-
 grade: devel
 confinement: devmode
-
 apps:
+  srsenb:
+    command: usr/bin/srsenb
+  srsue:
+    command: usr/bin/srsue
   srsepc:
-    command: usr/local/bin/srsepc
-    plugs:
-      - home
-      - network
-      - network-bind
-      - network-control
-
-parts:
-
-  libzmq:
-    plugin: autotools
-    source: https://github.com/zeromq/libzmq.git
-    source-type: git
-    source-tag: v4.3.4
-
-  czmq:
-    after:
-      - libzmq
-    plugin: autotools
-    source: https://github.com/zeromq/czmq.git
-    source-type: git
-    source-tag: v4.2.1
-
-  srsran:
+    command: usr/bin/srsepc
+layout:
+  /usr/share/srslte:
+    bind: $SNAP/usr/share/srslte
+  /etc/srslte:
+    bind: $SNAP/usr/share/srslte
+parts: 
+  srslte:
     plugin: cmake
-    after:
-      - czmq
-    source: https://github.com/srsRAN/srsRAN.git
+    cmake-parameters:
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DENABLE_ASAN=True
+      - -DCMAKE_INSTALL_PREFIX=/usr
+    source: https://github.com/srsLTE/srsLTE.git
     source-type: git
-    source-tag: release_22_04_1
+    source-tag: release_20_10_1
     build-packages:
-      - build-essential
-      - cmake
-      - libfftw3-dev
+      - libzmq3-dev
       - libmbedtls-dev
       - libboost-program-options-dev
-      - libconfig++-dev
       - libsctp-dev
+      - libconfig++-dev
+      - libfftw3-dev
     stage-packages:
+      - libzmq5
       - libboost-program-options1.71.0
-      - libconfig++9v5
+      - libsctp1
       - libfftw3-single3
       - libmbedcrypto3
-      - libsctp1
+      - libconfig++9v5
+      - libasan5
+    prime:
+      - -usr/include
+    organize:
+      ./usr/share/srslte/ue.conf.example: ./usr/share/srslte/ue.conf
+      ./usr/share/srslte/drb.conf.example: ./usr/share/srslte/drb.conf
+      ./usr/share/srslte/enb.conf.example: ./usr/share/srslte/enb.conf
+      ./usr/share/srslte/epc.conf.example: ./usr/share/srslte/epc.conf
+      ./usr/share/srslte/rr.conf.example: ./usr/share/srslte/rr.conf
+      ./usr/share/srslte/sib.conf.example: ./usr/share/srslte/sib.conf
+      ./usr/share/srslte/user_db.csv.example: ./usr/share/srslte/user_db.csv
