@@ -17,7 +17,7 @@ To build this snap, you will need a machine with the following requirements:
 
 run
 ```bash
-SNAPCRAFT_BUILD_ENVIRONMENT_MEMORY=4G snapcraft --destructive-mode
+snapcraft --destructive-mode
 ```
 > :warning: Building the snap using --destructive mode could contaminate the host build environment.
 
