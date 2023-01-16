@@ -42,3 +42,15 @@ srsran.srsue <path to ue.conf>
 ```bash
 srsran.srsepc <path to epc.conf>
 ```
+
+## Build
+To build this snap, you will need a machine with the following requirements:
+- Processor: x86-64 dual-core processor
+- OS: Ubuntu20-04
+- Memory: 4GB RAM
+
+run
+```bash
+snapcraft --destructive-mode
+```
+> :warning: Building the snap using --destructive mode could contaminate the host build environment.
