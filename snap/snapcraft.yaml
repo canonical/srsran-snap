@@ -1,6 +1,6 @@
 name: srsran
 base: core20
-version: '20.10'
+version: '22.10'
 summary: srsRAN is a 4G/5G software radio suite developed by SRS.
 description: srsRAN is a 4G/5G software radio suite developed by SRS.
 grade: devel
