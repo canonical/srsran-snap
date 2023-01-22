@@ -16,6 +16,8 @@ description: |
 grade: devel
 confinement: classic
 icon: snap/srsran.png
+website: https://www.srslte.com/
+source-code: https://github.com/canonical/srsran-snap
 license: Apache-2.0
 
 apps:
