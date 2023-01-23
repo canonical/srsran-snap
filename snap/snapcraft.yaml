@@ -1,6 +1,6 @@
 name: srsran
 base: core20
-version: '20.10'
+version: '22.10'
 summary: srsRAN is a 4G/5G software radio suite developed by SRS.
 description: srsRAN is a 4G/5G software radio suite developed by SRS.
 grade: devel
@@ -13,21 +13,23 @@ apps:
   srsepc:
     command: usr/bin/srsepc
 layout:
-  /usr/share/srslte:
-    bind: $SNAP/usr/share/srslte
-  /etc/srslte:
-    bind: $SNAP/usr/share/srslte
+  /usr/share/srsran:
+    bind: $SNAP/usr/share/srsran
+  /etc/srsran:
+    bind: $SNAP/usr/share/srsran
 parts: 
-  srslte:
+  srsran:
     plugin: cmake
     cmake-parameters:
       - -DCMAKE_BUILD_TYPE=RelWithDebInfo
       - -DENABLE_ASAN=True
       - -DCMAKE_INSTALL_PREFIX=/usr
-    source: https://github.com/srsLTE/srsLTE.git
+    source: https://github.com/srsran/srsRAN
     source-type: git
-    source-tag: release_20_10_1
+    source-tag: release_22_10
     build-packages:
+      - cmake
+      - build-essential
       - libzmq3-dev
       - libmbedtls-dev
       - libboost-program-options-dev
@@ -45,10 +47,11 @@ parts:
     prime:
       - -usr/include
     organize:
-      ./usr/share/srslte/ue.conf.example: ./usr/share/srslte/ue.conf
-      ./usr/share/srslte/drb.conf.example: ./usr/share/srslte/drb.conf
-      ./usr/share/srslte/enb.conf.example: ./usr/share/srslte/enb.conf
-      ./usr/share/srslte/epc.conf.example: ./usr/share/srslte/epc.conf
-      ./usr/share/srslte/rr.conf.example: ./usr/share/srslte/rr.conf
-      ./usr/share/srslte/sib.conf.example: ./usr/share/srslte/sib.conf
-      ./usr/share/srslte/user_db.csv.example: ./usr/share/srslte/user_db.csv
+      ./usr/share/srsran/ue.conf.example: ./usr/share/srsran/ue.conf
+      ./usr/share/srsran/drb.conf.example: ./usr/share/srsran/drb.conf
+      ./usr/share/srsran/enb.conf.example: ./usr/share/srsran/enb.conf
+      ./usr/share/srsran/epc.conf.example: ./usr/share/srsran/epc.conf
+      ./usr/share/srsran/rr.conf.example: ./usr/share/srsran/rr.conf
+      ./usr/share/srsran/sib.conf.example: ./usr/share/srsran/sib.conf
+      ./usr/share/srsran/user_db.csv.example: ./usr/share/srsran/user_db.csv
+      ./usr/share/srsran/rb.conf.example: ./usr/share/srsran/rb.conf
