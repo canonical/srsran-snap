@@ -11,11 +11,15 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-      - uses: snapcore/action-build@v1
+      - name: install snapcraft
+        run: |
+          sudo snap install snapcraft --classic
+      - name: build
+        run: |
+          snapcraft --destructive-mode
         id: build
-      - uses: snapcore/action-publish@v1
+      - name: publish snap
         env:
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
-        with:
-          snap: ${{ steps.build.outputs.snap }}
-          release: edge
+        run:
+          snapcraft upload --release=edge ./srsran_22.10_amd64.snap
