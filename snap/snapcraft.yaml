@@ -5,7 +5,7 @@ summary: srsRAN is a 4G/5G software radio suite developed by SRS.
 description: |
   srsRAN is a free and open-source 4G and 5G software radio suite.
 
-  Featuring both UE and eNodeB/gNodeB applications, srsRAN can be used with third-party core network solutions to build complete end-to-end mobile wireless networks. For more information, see www.srsran.com.
+  Featuring both UE and eNodeB/gNodeB applications, srsRAN can be used with third-party core network solutions to build complete end-to-end mobile wireless networks. For more information, see https://www.srsran.com/.
 
   The srsRAN suite currently includes:
   - srsUE: a full-stack 4G and 5G NSA / SA UE application
@@ -16,7 +16,7 @@ description: |
 grade: devel
 confinement: classic
 icon: snap/srsran.png
-website: https://www.srslte.com/
+website: https://www.srsran.com/
 source-code: https://github.com/canonical/srsran-snap
 license: Apache-2.0
 
