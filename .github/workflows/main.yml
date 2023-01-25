@@ -1,4 +1,4 @@
-name: merge-to-main
+name: main
 on:
   push:
     #branches:
@@ -14,12 +14,16 @@ jobs:
       - name: install snapcraft
         run: |
           sudo snap install snapcraft --classic
-      - name: build
-        run: |
-          snapcraft --destructive-mode
-        id: build
-      - name: publish snap
-        env:
-          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
-        run:
-          snapcraft upload --release=edge ./srsran_22.10_amd64.snap
+      - name: Debugging with ssh
+        uses: lhotari/action-upterm@v1
+      #- name: build
+      #  run: |
+      #    snapcraft --destructive-mode
+      #  id: build
+      #- name: publish snap
+      #  env:
+      #    SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
+      #  run:
+      #    snapcraft upload --release=edge ./srsran_22.10_amd64.snap
+      
+
