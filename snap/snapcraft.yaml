@@ -21,7 +21,10 @@ parts:
   srsran:
     plugin: cmake
     cmake-parameters:
+      - -DNO_AVX512=1
       - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DDISABLE_SIMD=True
+      - -DHAVE_AVX512=False
       - -DENABLE_ASAN=True
       - -DCMAKE_INSTALL_PREFIX=/usr
     source: https://github.com/srsran/srsRAN
