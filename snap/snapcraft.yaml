@@ -40,7 +40,8 @@ parts:
       - -DENABLE_ASAN=True
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DAUTO_DETECT_ISA=OFF
-      - -DDISABLE_SIMD=True
+      - -DHAVE_SSE=True
+      - -DHAVE_AVX=True
     source: https://github.com/srsran/srsRAN
     source-type: git
     source-tag: release_22_10
