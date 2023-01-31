@@ -9,51 +9,36 @@ For application features, build instructions and user guides see the [srsRAN doc
 
 ## Usage
 
-### Install
+Install the snap:
 
 ```bash
 sudo snap install srsran
 ```
 
-### Config files
-
-By default config files are installed from the official srsran repo, for example [enb.conf.example](https://github.com/srsran/srsRAN/blob/master/srsenb/enb.conf.example).
-When running any of the commands these config files are used. 
-To override config files, provide paths to the custom files in the commands.
-Custom config files and all files referred in them (ex. `user_db.csv`) must be located in the user's home
-directory.
-
-### Commands
-
-- srsenb
+To simulate an eNodeB, an EPC or a User Equipment, run any of the following commands:
 
 ```bash
 srsran.srsenb <path to enb.conf>
-```
-
-- srsue
-
-```bash
 srsran.srsue <path to ue.conf>
+srsran.srsepc <path to epc.conf> 
 ```
 
-- srsepc
+When paths to config files are not provided in the commands above, default configs are used (ex. [enb.conf.example](https://github.com/srsran/srsRAN/blob/master/srsenb/enb.conf.example)).
+Custom config files and all files referred in them (ex. `user_db.csv`) must be located in the user's home directory.
 
-```bash
-srsran.srsepc <path to epc.conf>
-```
-Depending on the RF Device Driver used, you will need to modify the following configuration:
+Depending on the RF Device Driver used, you will need to modify the following configuration in ue.conf and enb.conf:
 - device_name: Device driver family
 - device_args: Arguments for the device driver. Options are "auto" or any string.
 This snap uses ZMQ as default.
 
 ## Build
+
 To build this snap, you will need a machine with the following requirements:
 - Processor: x86-64 dual-core processor
 - OS: Ubuntu20-04
 - Memory: 4GB RAM
 
-run
+Run
 ```bash
 snapcraft --destructive-mode
 ```
