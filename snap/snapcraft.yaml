@@ -55,3 +55,9 @@ parts:
       ./usr/share/srsran/sib.conf.example: ./usr/share/srsran/sib.conf
       ./usr/share/srsran/user_db.csv.example: ./usr/share/srsran/user_db.csv
       ./usr/share/srsran/rb.conf.example: ./usr/share/srsran/rb.conf
+    override-prime: |
+      snapcraftctl prime
+      sed -i '/device_args = tx_port=tcp/s/^#//g' ./usr/share/srsran/ue.conf
+      sed -i '/device_name = zmq/s/^#//g' ./usr/share/srsran/ue.conf
+      sed -i '/device_args = fail_on_disconnect/s/^#//g' ./usr/share/srsran/enb.conf
+      sed -i '/device_name = zmq/s/^#//g' ./usr/share/srsran/enb.conf

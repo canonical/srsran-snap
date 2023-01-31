@@ -42,6 +42,10 @@ srsran.srsue <path to ue.conf>
 ```bash
 srsran.srsepc <path to epc.conf>
 ```
+Depending on the RF Device Driver used, you will need to modify the following configuration:
+- device_name: Device driver family
+- device_args: Arguments for the device driver. Options are "auto" or any string.
+This snap uses ZMQ as default.
 
 ## Build
 To build this snap, you will need a machine with the following requirements:
