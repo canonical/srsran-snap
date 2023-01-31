@@ -32,13 +32,16 @@ layout:
     bind: $SNAP/usr/share/srsran
   /etc/srsran:
     bind: $SNAP/usr/share/srsran
-parts: 
+parts:
   srsran:
     plugin: cmake
     cmake-parameters:
       - -DCMAKE_BUILD_TYPE=RelWithDebInfo
       - -DENABLE_ASAN=True
       - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DAUTO_DETECT_ISA=OFF
+      - -DHAVE_SSE=True
+      - -DHAVE_AVX=True
     source: https://github.com/srsran/srsRAN
     source-type: git
     source-tag: release_22_10
@@ -70,3 +73,9 @@ parts:
       ./usr/share/srsran/sib.conf.example: ./usr/share/srsran/sib.conf
       ./usr/share/srsran/user_db.csv.example: ./usr/share/srsran/user_db.csv
       ./usr/share/srsran/rb.conf.example: ./usr/share/srsran/rb.conf
+    override-build: |
+      set -x
+      pushd $SNAPCRAFT_PART_SRC
+      sed -ie 's/native/x86_64/g' CMakeLists.txt
+      popd
+      snapcraftctl build
