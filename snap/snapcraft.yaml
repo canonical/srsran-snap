@@ -29,10 +29,15 @@ apps:
     command: usr/bin/srsepc
 layout:
   /usr/share/srsran:
-    bind: $SNAP/usr/share/srsran
+    bind: $SNAP/config
   /etc/srsran:
-    bind: $SNAP/usr/share/srsran
+    bind: $SNAP/config
 parts:
+  config:
+    plugin: dump
+    source: local/
+    organize:
+      '*': config/
   srsran:
     plugin: cmake
     cmake-parameters:
@@ -70,19 +75,3 @@ parts:
       snapcraftctl build
     prime:
       - -usr/include
-    organize:
-      ./usr/share/srsran/ue.conf.example: ./usr/share/srsran/ue.conf
-      ./usr/share/srsran/drb.conf.example: ./usr/share/srsran/drb.conf
-      ./usr/share/srsran/enb.conf.example: ./usr/share/srsran/enb.conf
-      ./usr/share/srsran/epc.conf.example: ./usr/share/srsran/epc.conf
-      ./usr/share/srsran/rr.conf.example: ./usr/share/srsran/rr.conf
-      ./usr/share/srsran/sib.conf.example: ./usr/share/srsran/sib.conf
-      ./usr/share/srsran/user_db.csv.example: ./usr/share/srsran/user_db.csv
-      ./usr/share/srsran/rb.conf.example: ./usr/share/srsran/rb.conf
-    override-prime: |
-      snapcraftctl prime
-      sed -i '/device_args = tx_port=tcp/s/^#//g' ./usr/share/srsran/ue.conf
-      sed -i '/device_name = zmq/s/^#//g' ./usr/share/srsran/ue.conf
-      sed -i '/device_args = fail_on_disconnect/s/^#//g' ./usr/share/srsran/enb.conf
-      sed -i '/device_name = zmq/s/^#//g' ./usr/share/srsran/enb.conf
-

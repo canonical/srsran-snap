@@ -31,6 +31,8 @@ Depending on the RF Device Driver used, you will need to modify the following co
 - device_args: Arguments for the device driver. Options are "auto" or any string.
 This snap uses ZMQ as default.
 
+By default srsran-snap apps will log to `/var/snap/srsran/current/`.
+
 ## Build
 
 To build this snap, you will need a machine with the following requirements:
