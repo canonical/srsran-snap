@@ -35,7 +35,7 @@ layout:
 parts:
   config:
     plugin: dump
-    source: local/
+    source: snap/local/
     organize:
       '*': config/
   srsran:
