@@ -26,6 +26,12 @@ srsran.srsepc <path to epc.conf>
 When paths to config files are not provided in the commands above, default configs are used (ex. [enb.conf.example](https://github.com/srsran/srsRAN/blob/master/srsenb/enb.conf.example)).
 Custom config files and all files referred in them (ex. `user_db.csv`) must be located in the user's home directory.
 
+Depending on the RF Device Driver used, you will need to modify the following configuration in ue.conf and enb.conf:
+- device_name: Device driver family
+- device_args: Arguments for the device driver. Options are "auto" or any string.
+This snap uses ZMQ as default.
+
+By default srsran-snap apps will log to `/var/snap/srsran/current/`.
 
 ## Build
 

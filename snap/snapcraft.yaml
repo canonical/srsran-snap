@@ -15,7 +15,7 @@ description: |
   All srsRAN software runs in linux with off-the-shelf compute and radio hardware.
 grade: devel
 confinement: devmode
-icon: snap/srsran.png
+icon: snap/local/srsran.png
 website: https://www.srsran.com/
 source-code: https://github.com/canonical/srsran-snap
 license: Apache-2.0
@@ -29,10 +29,15 @@ apps:
     command: usr/bin/srsepc
 layout:
   /usr/share/srsran:
-    bind: $SNAP/usr/share/srsran
+    bind: $SNAP/config
   /etc/srsran:
-    bind: $SNAP/usr/share/srsran
+    bind: $SNAP/config
 parts:
+  config:
+    plugin: dump
+    source: snap/local/
+    organize:
+      '*': config/
   srsran:
     plugin: cmake
     cmake-parameters:
@@ -62,20 +67,11 @@ parts:
       - libmbedcrypto3
       - libconfig++9v5
       - libasan5
-    prime:
-      - -usr/include
-    organize:
-      ./usr/share/srsran/ue.conf.example: ./usr/share/srsran/ue.conf
-      ./usr/share/srsran/drb.conf.example: ./usr/share/srsran/drb.conf
-      ./usr/share/srsran/enb.conf.example: ./usr/share/srsran/enb.conf
-      ./usr/share/srsran/epc.conf.example: ./usr/share/srsran/epc.conf
-      ./usr/share/srsran/rr.conf.example: ./usr/share/srsran/rr.conf
-      ./usr/share/srsran/sib.conf.example: ./usr/share/srsran/sib.conf
-      ./usr/share/srsran/user_db.csv.example: ./usr/share/srsran/user_db.csv
-      ./usr/share/srsran/rb.conf.example: ./usr/share/srsran/rb.conf
     override-build: |
       set -x
       pushd $SNAPCRAFT_PART_SRC
       sed -ie 's/native/x86_64/g' CMakeLists.txt
       popd
       snapcraftctl build
+    prime:
+      - -usr/include
