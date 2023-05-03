@@ -16,12 +16,22 @@ description: |
 
   All srsRAN software runs in linux with off-the-shelf compute and radio
   hardware.
-grade: devel
-confinement: devmode
+confinement: strict
 icon: snap/local/srsran.png
 website: https://www.srsran.com/
 source-code: https://github.com/canonical/srsran-snap
 license: Apache-2.0
+
+plugs:
+  etc-hosts:
+    interface: system-files
+    read:
+      - /etc/hosts
+  network:
+  network-bind:
+  network-control:
+  process-control:
+  system-observe:
 
 apps:
   srsenb:
