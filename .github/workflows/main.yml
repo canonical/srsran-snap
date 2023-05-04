@@ -22,4 +22,4 @@ jobs:
         env:
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
         run:
-          snapcraft upload --release=edge ./srsran-4g_23.04_amd64.snap
+          snapcraft upload --release=edge ./srsran_23.04_amd64.snap
