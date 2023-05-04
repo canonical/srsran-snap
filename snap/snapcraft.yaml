@@ -1,24 +1,37 @@
 name: srsran
 base: core20
-version: '22.10'
-summary: srsRAN is a 4G/5G software radio suite developed by SRS.
+version: '23.04'
+summary: srsRAN is a 4G software radio suite developed by SRS.
 description: |
-  srsRAN is a free and open-source 4G and 5G software radio suite.
+  srsRAN is a free and open-source 4G software radio suite.
 
-  Featuring both UE and eNodeB/gNodeB applications, srsRAN can be used with third-party core network solutions to build complete end-to-end mobile wireless networks. For more information, see https://www.srsran.com/.
+  Featuring both UE and eNodeB/gNodeB applications, srsRAN can be used with
+  third-party core network solutions to build complete end-to-end mobile
+  wireless networks. For more information, see https://www.srsran.com/.
 
   The srsRAN suite currently includes:
   - srsUE: a full-stack 4G and 5G NSA / SA UE application
   - srsENB: a full-stack 4G eNodeB with 5G NSA / SA gNodeB capabilities
   - srsEPC: a light-weight 4G EPC implementation with MME, HSS and S/P-GW
 
-  All srsRAN software runs in linux with off-the-shelf compute and radio hardware.
-grade: devel
-confinement: devmode
+  All srsRAN software runs in linux with off-the-shelf compute and radio
+  hardware.
+confinement: strict
 icon: snap/local/srsran.png
 website: https://www.srsran.com/
 source-code: https://github.com/canonical/srsran-snap
 license: Apache-2.0
+
+plugs:
+  etc-hosts:
+    interface: system-files
+    read:
+      - /etc/hosts
+  network:
+  network-bind:
+  network-control:
+  process-control:
+  system-observe:
 
 apps:
   srsenb:
@@ -47,9 +60,10 @@ parts:
       - -DAUTO_DETECT_ISA=OFF
       - -DHAVE_SSE=True
       - -DHAVE_AVX=True
-    source: https://github.com/srsran/srsRAN
+      - -DGCC_ARCH=x86-64
+    source: https://github.com/srsran/srsRAN_4G
     source-type: git
-    source-tag: release_22_10
+    source-tag: release_23_04
     build-packages:
       - cmake
       - build-essential
@@ -67,11 +81,5 @@ parts:
       - libmbedcrypto3
       - libconfig++9v5
       - libasan5
-    override-build: |
-      set -x
-      pushd $SNAPCRAFT_PART_SRC
-      sed -ie 's/native/x86_64/g' CMakeLists.txt
-      popd
-      snapcraftctl build
     prime:
       - -usr/include
