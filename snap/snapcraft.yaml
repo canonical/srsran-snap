@@ -1,6 +1,6 @@
 name: srsran
 base: core20
-version: '23.04'
+version: '23.11'
 summary: srsRAN is a 4G software radio suite developed by SRS.
 description: |
   srsRAN is a free and open-source 4G software radio suite.
@@ -59,7 +59,7 @@ parts:
       - -DGCC_ARCH=x86-64
     source: https://github.com/srsran/srsRAN_4G
     source-type: git
-    source-tag: release_23_04
+    source-tag: release_23_11
     build-packages:
       - cmake
       - build-essential
