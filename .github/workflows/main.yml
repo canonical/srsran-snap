@@ -5,21 +5,43 @@ on:
       - main
 
 jobs:
-
   build-and-publish-snap:
     name: Build and publish srsRAN snap
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
-      - name: install snapcraft
-        run: |
-          sudo snap install snapcraft --classic
-      - name: build
-        run: |
-          snapcraft --destructive-mode
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build snap locally
+        uses: snapcore/action-build@v1
         id: build
+
+      - name: Get snapcraft track
+        if: ${{ github.ref_protected }}
+        id: track
+        run: |
+          if [ "${{ github.ref_name }}" == "main" ]; then
+            echo "::set-output name=track::latest"
+          elif [[ "${{ github.ref_name }}" =~ ^stable\/(.+) ]]; then
+            TRACK_NAME=${BASH_REMATCH[1]}
+            echo "::set-output name=track::$TRACK_NAME"
+          else
+            echo "Branch name does not match expected patterns. Exiting."
+            exit 1
+          fi
+
+      - name: Upload snap artifact
+        id: upload-snap
+        uses: actions/upload-artifact@v4
+        with:
+          name: snap
+          path: ${{ steps.build.outputs.snap }}
+
       - name: publish snap
+        if: ${{ github.ref_protected }}
+        uses: snapcore/action-publish@v1
         env:
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
-        run:
-          snapcraft upload --release=edge ./srsran_23.04_amd64.snap
+        with:
+          snap: ${{ steps.build.outputs.snap }}
+          release: ${{ steps.track.outputs.track }}/edge
