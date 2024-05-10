@@ -1,5 +1,5 @@
 name: srsran
-base: core20
+base: core22
 version: '23.11'
 summary: srsRAN is a 4G software radio suite developed by SRS.
 description: |
