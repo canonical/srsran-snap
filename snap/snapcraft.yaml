@@ -74,7 +74,6 @@ parts:
     source-type: git
     source-tag: release_23_11
     build-packages:
-      - libc6-dev
       - cmake
       - build-essential
       - libzmq3-dev
