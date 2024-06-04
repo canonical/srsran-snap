@@ -85,10 +85,10 @@ parts:
       - libfftw3-dev
     stage-packages:
       - libzmq5
-      - libboost-program-options1.71.0
+      - libboost-program-options1.74.0
       - libsctp1
       - libfftw3-single3
-      - libmbedcrypto3
+      - libmbedcrypto7
       - libconfig++9v5
       - libasan5
     prime:
