@@ -1,5 +1,5 @@
 name: srsran
-base: core20
+base: core22
 version: '23.11'
 summary: srsRAN is a 4G software radio suite developed by SRS.
 description: |
@@ -22,25 +22,38 @@ website: https://www.srsran.com/
 source-code: https://github.com/canonical/srsran-snap
 license: AGPL-3.0
 
-plugs:
-  network:
-  network-bind:
-  network-control:
-  process-control:
-  system-observe:
-
 apps:
   srsenb:
     command: usr/bin/srsenb
+    plugs:
+      - network
+      - network-bind
+      - network-control
+      - process-control
+      - system-observe
   srsue:
     command: usr/bin/srsue
+    plugs:
+      - network
+      - network-bind
+      - network-control
+      - process-control
+      - system-observe
   srsepc:
     command: usr/bin/srsepc
+    plugs:
+      - network
+      - network-bind
+      - network-control
+      - process-control
+      - system-observe
+
 layout:
   /usr/share/srsran:
     bind: $SNAP/config
   /etc/srsran:
     bind: $SNAP/config
+
 parts:
   config:
     plugin: dump
@@ -71,10 +84,10 @@ parts:
       - libfftw3-dev
     stage-packages:
       - libzmq5
-      - libboost-program-options1.71.0
+      - libboost-program-options1.74.0
       - libsctp1
       - libfftw3-single3
-      - libmbedcrypto3
+      - libmbedcrypto7
       - libconfig++9v5
       - libasan5
     prime:
