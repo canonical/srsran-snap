@@ -89,6 +89,6 @@ parts:
       - libfftw3-single3
       - libmbedcrypto7
       - libconfig++9v5
-      - libasan5
+      - libasan6
     prime:
       - -usr/include
